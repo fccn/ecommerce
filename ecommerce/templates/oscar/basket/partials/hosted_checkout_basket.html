@@ -160,6 +160,8 @@
                             {% elif processor.NAME == 'paypal' %}
                                 {# Translators: Do NOT translate the name PayPal. #}
                                 {% trans "Checkout with PayPal" %}
+                            {% elif processor.NAME == 'sibs' %}
+                                {% trans "Checkout with SIBS" %}
                             {% endif %}
                         </button>
                     {% endfor %}
@@ -167,6 +169,14 @@
             </div>
         </div>
     </div>
+
+    {% for processor in payment_processors %}
+      {% if processor.NAME == 'sibs'%}
+        {{processor.NAME}}
+      <!-- <script src="https://test.oppwa.com/v1/paymentWidgets.js?checkoutId={checkoutId}"></script> -->
+      <!-- <form action="{shopperResultUrl}" class="paymentWidgets" data-brands="VISA MASTER AMEX"></form> -->
+      {% endif %}
+    {% endfor %}
 
     <div class="row verification-note">
         <div class="col-sm-12">
