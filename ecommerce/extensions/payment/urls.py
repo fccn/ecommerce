@@ -26,6 +26,7 @@ STRIPE_URLS = [
 ]
 
 SIBS_URLS = [
+    url(r'^pay/$', sibs.SIBSView.as_view(), name='payment'),
     url(r'^execute/$', sibs.SIBSPaymentExecutionView.as_view(), name='execute'),
 ]
 
