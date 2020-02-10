@@ -7,7 +7,7 @@ logger = logging.getLogger(__name__)
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
 from django.http import Http404, HttpResponse, HttpResponseBadRequest
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
@@ -44,6 +44,14 @@ class SIBSView(LoginRequiredMixin, View):
         raise NotImplementedError
 
     def post(self, request):
+        try:
+            context = {
+                'shopperResultUrl': request.POST['shopperResultUrl'],
+                'checkoutId': request.POST['checkoutId']
+            }
+            return render(request, 'payment/sibs.html', context)
+        except Exception as err: # pylint: disable=broad-except
+            logger.error('SIBS failed with error [%s]', str(err))
         raise NotImplementedError
 
 

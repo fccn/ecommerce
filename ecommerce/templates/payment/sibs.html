@@ -1,2 +1,30 @@
-<script src="https://test.oppwa.com/v1/paymentWidgets.js?checkoutId={checkoutId}"></script>
-<form action="{shopperResultUrl}" class="paymentWidgets" data-brands="VISA MASTER AMEX"></form>
+
+{% extends 'edx/base.html' %}
+
+{% load core_extras %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}
+{% trans 'SIBS' %}
+{% endblock title %}
+
+{% block navbar %}
+{% include 'edx/partials/_student_navbar.html' %}
+{% endblock navbar %}
+
+{% block post_js %}
+<script src="https://test.oppwa.com/v1/paymentWidgets.js?checkoutId={{checkoutId}}"></script>
+
+{% endblock %}
+
+{% block content %}
+
+<main id="main-content" aria-label="Checkout" tabindex=-1>
+  <div class="container">
+      <form action="{{shopperResultUrl}}" class="paymentWidgets" data-brands="VISA MASTER AMEX"></form>
+
+  </div>
+</main>
+
+{% endblock content %}

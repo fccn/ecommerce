@@ -31,7 +31,6 @@ class SIBS(BasePaymentProcessor):
         super(SIBS, self).__init__(site)
 
         configuration = self.configuration
-        self.payment_page_url = configuration['payment_page_url']
         self.bearer = configuration['bearer']
         self.entity_id = configuration['entity_id']
         self.test_mode = configuration['test_mode']
