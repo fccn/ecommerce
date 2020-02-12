@@ -170,14 +170,6 @@
         </div>
     </div>
 
-    {% for processor in payment_processors %}
-      {% if processor.NAME == 'sibs'%}
-        {{processor.NAME}}
-      <!-- <script src="https://test.oppwa.com/v1/paymentWidgets.js?checkoutId={checkoutId}"></script> -->
-      <!-- <form action="{shopperResultUrl}" class="paymentWidgets" data-brands="VISA MASTER AMEX"></form> -->
-      {% endif %}
-    {% endfor %}
-
     <div class="row verification-note">
         <div class="col-sm-12">
             <span><i class="fa fa-exclamation-circle"></i></span>
