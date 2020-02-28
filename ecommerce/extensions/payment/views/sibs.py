@@ -2,8 +2,6 @@
 import logging
 import json
 
-logger = logging.getLogger(__name__)
-
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
@@ -27,6 +25,7 @@ NoShippingRequired = get_class('shipping.methods', 'NoShippingRequired')
 OrderNumberGenerator = get_class('order.utils', 'OrderNumberGenerator')
 OrderTotalCalculator = get_class('checkout.calculators', 'OrderTotalCalculator')
 
+
 class SIBSView(LoginRequiredMixin, View):
 
     # Disable CSRF validation. The internal POST requests to render this view
@@ -40,12 +39,17 @@ class SIBSView(LoginRequiredMixin, View):
 
     def post(self, request):
         """Create the payment form."""
+        url = '{api_root_url}/v1/paymentWidgets.js?checkoutId={checkoutId}'.format(
+            api_root_url=request.POST['api_root_url'],
+            checkoutId=request.POST['checkoutId']
+        )
         try:
             context = {
-                'shopperResultUrl': request.POST['shopperResultUrl'],
-                'checkoutId': request.POST['checkoutId']
+                'locale': request.LANGUAGE_CODE,
+                'url': url,
+                'shopperResultUrl': request.POST['shopperResultUrl']
             }
-        except Exception as err: # pylint: disable=broad-except
+        except Exception as err:  # pylint: disable=broad-except
             logger.error('SIBS failed with error [%s]', str(err))
         return render(request, 'payment/sibs.html', context)
 
@@ -70,7 +74,6 @@ class SIBSPaymentExecutionView(EdxOrderPlacementMixin, View):
             return basket
         except (ValueError, ObjectDoesNotExist):
             return None
-
 
     def get(self, request):
         """Handle the order and SIBS status."""
@@ -124,7 +127,7 @@ class SIBSPaymentExecutionView(EdxOrderPlacementMixin, View):
                 order_total,
                 request=request
             )
-        except: # pylint: disable=bare-except
+        except:  # pylint: disable=bare-except
             payment_processor = self.payment_processor.NAME.title() if self.payment_processor else None
             logger.exception(self.order_placement_failure_msg, payment_processor, basket.id)
         return redirect(receipt_url)

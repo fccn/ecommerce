@@ -1,7 +1,6 @@
 """ SIBS payment processing """
 import logging
 
-from decimal import Decimal
 import json
 import requests
 
@@ -54,6 +53,7 @@ class SIBS(BasePaymentProcessor):
             parameters['customParameters[SIBS_ENV]'] = 'QLY'
 
         response = self._prepare_checkout(parameters)
+        parameters['api_root_url'] = self.api_root_url
         parameters['payment_page_url'] = reverse('sibs:payment')
         parameters['shopperResultUrl'] = reverse('sibs:execute')
         parameters['checkoutId'] = response.get('id')
@@ -91,7 +91,6 @@ class SIBS(BasePaymentProcessor):
 
     def issue_credit(self, order_number, basket, reference_number, amount, currency):
         raise NotImplementedError
-
 
     def _prepare_checkout(self, data):
         """

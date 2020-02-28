@@ -14,7 +14,13 @@
 {% endblock navbar %}
 
 {% block post_js %}
-<script src="https://test.oppwa.com/v1/paymentWidgets.js?checkoutId={{checkoutId}}"></script>
+<script>
+    var wpwlOptions = {
+        locale: "{{locale}}"
+    }
+</script>
+
+<script src="{{url}}"></script>
 
 {% endblock %}
 
