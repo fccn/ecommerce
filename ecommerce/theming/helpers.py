@@ -98,8 +98,8 @@ def is_comprehensive_theming_enabled():
         return False
 
     # Return False if we're currently processing a request and theming is disabled via runtime switch
-    if bool(get_current_request()) and waffle.switch_is_active(settings.DISABLE_THEMING_ON_RUNTIME_SWITCH):
-        return False
+    # if bool(get_current_request()) and waffle.switch_is_active(settings.DISABLE_THEMING_ON_RUNTIME_SWITCH):
+    #     return False
 
     # Return True indicating theming is enabled
     return True
