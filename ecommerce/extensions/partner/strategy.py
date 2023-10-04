@@ -40,4 +40,12 @@ class DefaultStrategy(strategy.UseFirstStockRecord, CourseSeatAvailabilityPolicy
 
 class Selector:
     def strategy(self, request=None, user=None, **kwargs):  # pylint: disable=unused-argument
+        # Begin custom NAU code
+        # Try to create a new app and register the custom app right before the first ecommerce app, like 'ecommerce.core'
+        from django.conf import settings
+        if hasattr(settings, 'NAU_EXTENSION_OSCAR_STRATEGY_CLASS'):
+            from pydoc import locate
+            custom_strategy = locate(settings.NAU_EXTENSION_OSCAR_STRATEGY_CLASS)
+            return custom_strategy(request if hasattr(request, 'user') else None)
+        # End custom NAU code
         return DefaultStrategy(request if hasattr(request, 'user') else None)
