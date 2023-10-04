@@ -2092,8 +2092,8 @@ msgstr "O seu pedido está completo. Se precisar de um recibo, pode imprimir est
 
 #: ecommerce/templates/edx/checkout/receipt.html:68
 msgid ""
-"Your order is complete. If you need a receipt, you can print this page."
-msgstr "O seu pedido está completo. Se precisar de um recibo, pode imprimir esta página."
+"Your order is complete. If you need a receipt, you can print this page. You will also receive a confirmation message with this information at {link_start}{email}{link_end}."
+msgstr "O seu pedido está completo. Se precisar de um recibo, pode imprimir esta página. Receberá também uma mensagem de confirmação com estas informações em {link_start}{email}{link_end}."
 
 #: ecommerce/templates/edx/checkout/receipt.html:87
 msgid "Order Number:"
