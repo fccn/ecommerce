@@ -35,14 +35,19 @@ class LMSPublisher:
             if enrollment_code:
                 bulk_sku = enrollment_code.stockrecords.first().partner_sku
 
+        # Begin custom NAU code
+        from oscar.core.loading import get_class
+        price = int(get_class('partner.strategy', 'Selector')().strategy().fetch_for_product(seat).price.incl_tax)
         return {
             'name': mode_for_product(seat),
             'currency': stock_record.price_currency,
-            'price': int(stock_record.price_excl_tax),
+            # 'price': int(stock_record.price_excl_tax),
+            'price': price,
             'sku': stock_record.partner_sku,
             'bulk_sku': bulk_sku,
             'expires': self.get_seat_expiration(seat),
         }
+        # End custom NAU code
 
     def publish(self, course):
         """ Publish course commerce data to LMS.
