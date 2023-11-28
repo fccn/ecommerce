@@ -7,11 +7,13 @@
 
     <div class="seat-price">
         <div class="form-group">
-            <label for="price"><%= gettext('Price (in USD)') %></label>
+            <label for="price"><%= gettext('Price (in EUR)') %></label>
 
             <div class="input-group">
-                <div class="input-group-addon">$</div>
-                <input type="number" class="form-control" name="price" id="price" min="5" step="1" pattern="\d+"
+
+                <div class="input-group-addon">€</div>
+                <!-- Begin custom NAU code -->
+                <input type="number" class="form-control" name="price" id="price" min="0.01" step="0.01" pattern="\d+\.\d\d"
                        value="<%= price %>">
             </div>
             <!-- NOTE: This help-block is here for validation messages. -->
