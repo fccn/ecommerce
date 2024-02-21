@@ -33,10 +33,20 @@ class CourseSeatAvailabilityPolicyMixin(strategy.StockRequired):
         return availability.Unavailable()
 
 
-class DefaultStrategy(strategy.UseFirstStockRecord, CourseSeatAvailabilityPolicyMixin,
-                      strategy.NoTax, strategy.Structured):
-    """ Default Strategy """
+# Begin custom NAU code
+# replace the NoTax on DefaultStrategy with the FixedRateTax
+def rate_tax():
+    from django.conf import settings
+    if hasattr(settings, 'NAU_EXTENSION_OSCAR_RATE_TAX_STRATEGY_CLASS'):
+        from pydoc import locate
+        return locate(settings.NAU_EXTENSION_OSCAR_RATE_TAX_STRATEGY_CLASS)
+    else:
+        return strategy.NoTax
 
+class DefaultStrategy(strategy.UseFirstStockRecord, CourseSeatAvailabilityPolicyMixin,
+                      rate_tax(), strategy.Structured):
+    """ Default Strategy """
+# End custom NAU code
 
 class Selector:
     def strategy(self, request=None, user=None, **kwargs):  # pylint: disable=unused-argument
