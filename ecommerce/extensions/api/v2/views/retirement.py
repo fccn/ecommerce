@@ -2,9 +2,12 @@
 Endpoints to facilitate retirement actions
 """
 from edx_rest_framework_extensions.auth.jwt.authentication import JwtAuthentication
+from django.conf import settings
 from rest_framework import permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from social_django.models import UserSocialAuth
+from user_util import user_util
 
 from ecommerce.core.models import User
 from ecommerce.extensions.analytics.utils import ECOM_TRACKING_ID_FMT
@@ -50,4 +53,52 @@ class EcommerceIdView(APIView):
             return Response(
                 status=status.HTTP_404_NOT_FOUND,
                 data={'message': 'Invalid user.'}
+            )
+
+class EcommerceUserRetireView(APIView):
+    """
+    Provides API endpoint for retiring a ecommerce's user.
+    """
+    authentication_classes = (JwtAuthentication,)
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser)
+
+    def post(self, request):
+        """
+        POST /api/v2/user/retire/
+
+        ```
+        {
+            'username': 'user_to_retire'
+        }
+        ```
+
+        Retires the user with the given username.  This includes
+        retiring this username, retiring the email address, and
+        deleting the social_auth associated with the lms user.
+        """
+        try:
+            username = request.data['username']
+            if not username:
+                raise User.DoesNotExist()
+
+            user = User.objects.get(username=username)
+
+            # Delete social_auth asssociated with the lms user 
+            UserSocialAuth.objects.filter(uid=username).delete()
+
+            # Generate retired email based on retirement settings 
+            user.email = user_util.get_retired_email(user.email, settings.RETIRED_USER_SALTS, settings.RETIRED_EMAIL_FMT)
+            user.username = user_util.get_retired_username(username, settings.RETIRED_USER_SALTS, settings.RETIRED_USERNAME_FMT)
+            user.save()
+
+            return Response(
+                {
+                    'id': user.pk,
+                    'ecommerce_tracking_id': ECOM_TRACKING_ID_FMT.format(user.pk),
+                }
+            )
+        except User.DoesNotExist:
+            return Response(
+                status=status.HTTP_404_NOT_FOUND,
+                data={'message': 'User does not exist on ecommerce service.'}
             )

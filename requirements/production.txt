@@ -659,6 +659,8 @@ urllib3==1.26.18
     #   botocore
     #   cybersource-rest-client-python
     #   requests
+user-util==1.1.0
+    # via -r requirements/base.txt
 vine==5.1.0
     # via
     #   amqp

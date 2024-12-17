@@ -65,6 +65,10 @@ RETIREMENT_URLS = [
     url(r'^tracking_id/{}/$'.format(USERNAME_PATTERN), retirement_views.EcommerceIdView.as_view(), name='tracking_id')
 ]
 
+ECOMMERCE_RETIREMENT_URLS = [
+    url(r'^retire/$', retirement_views.EcommerceUserRetireView.as_view(), name='retire_user')
+]
+
 COUPON_URLS = [
     url(r'^coupon_reports/(?P<coupon_id>[\d]+)/$', CouponReportCSVView.as_view(), name='coupon_reports'),
     url(r'^categories/$', coupon_views.CouponCategoriesListView.as_view(), name='coupons_categories'),
@@ -119,6 +123,7 @@ urlpatterns = [
     url(r'^publication/', include((ATOMIC_PUBLICATION_URLS, 'publication'))),
     url(r'^refunds/', include((REFUND_URLS, 'refunds'))),
     url(r'^retirement/', include((RETIREMENT_URLS, 'retirement'))),
+    url(r'^user/', include((ECOMMERCE_RETIREMENT_URLS, 'ecommerce_retirement'))),
     url(r'^user_management/', include((USER_MANAGEMENT_URLS, 'user_management'))),
     url(r'^assignment-email/', include((ASSIGNMENT_EMAIL_URLS, 'assignment-email'))),
     url(r'^webhooks/', include((WEBHOOKS_URLS, 'webhooks'))),

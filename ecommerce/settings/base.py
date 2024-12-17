@@ -891,3 +891,17 @@ CAMPAIGN_IDS_BY_EMAIL_TYPE = {
     OfferUsageEmailTypes.LOW_BALANCE: BRAZE_OFFER_LOW_BALANCE_CAMPAIGN,
     OfferUsageEmailTypes.OUT_OF_BALANCE: BRAZE_OFFER_NO_BALANCE_CAMPAIGN
 }
+
+############### Settings for Retirement #####################
+# See annotations in lms/envs/common.py for details.
+RETIRED_USERNAME_PREFIX = 'retired__user_'
+# See annotations in lms/envs/common.py for details.
+RETIRED_EMAIL_PREFIX = 'retired__user_'
+# See annotations in lms/envs/common.py for details.
+RETIRED_EMAIL_DOMAIN = 'retired.invalid'
+# See annotations in lms/envs/common.py for details.
+RETIRED_USERNAME_FMT = 'retired__user_{}'
+# See annotations in lms/envs/common.py for details.
+RETIRED_EMAIL_FMT = 'retired__user_{}@retired.invalid'
+# See annotations in lms/envs/common.py for details.
+RETIRED_USER_SALTS = ['abc', '123']
