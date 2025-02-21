@@ -99,6 +99,6 @@ class EcommerceUserRetireView(APIView):
             )
         except User.DoesNotExist:
             return Response(
-                status=status.HTTP_404_NOT_FOUND,
+                status=status.HTTP_204_NO_CONTENT,
                 data={'message': 'User does not exist on ecommerce service.'}
             )
